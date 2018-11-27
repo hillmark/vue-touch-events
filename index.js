@@ -12,16 +12,16 @@ function touchY(event) {
     return event.touches[0].clientY;
 }
 
-var isPassiveSupported = (function() {
+var isPassiveSupported = (function () {
     var supportsPassive = false;
     try {
         var opts = Object.defineProperty({}, 'passive', {
-            get: function() {
+            get: function () {
                 supportsPassive = true;
             }
         });
         window.addEventListener('test', null, opts);
-    } catch (e) {}
+    } catch (e) { }
     return supportsPassive;
 })()
 
@@ -62,6 +62,8 @@ var vueTouchEvents = {
             $this.currentY = 0
 
             $this.touchStartTime = event.timeStamp
+
+            triggerEvent(event, this, 'tapstart')
         }
 
         function touchMoveEvent(event) {
@@ -197,14 +199,14 @@ var vueTouchEvents = {
             bind: function ($el, binding) {
 
                 $el.$$touchObj = $el.$$touchObj || {
-                        // will change to true when `touchstart` event first trigger
-                        supportTouch: false,
-                        // an object contains all callbacks registered,
-                        // key is event name, value is an array
-                        callbacks: {},
-                        // prevent bind twice, set to true when event bound
-                        hasBindTouchEvents: false
-                    }
+                    // will change to true when `touchstart` event first trigger
+                    supportTouch: false,
+                    // an object contains all callbacks registered,
+                    // key is event name, value is an array
+                    callbacks: {},
+                    // prevent bind twice, set to true when event bound
+                    hasBindTouchEvents: false
+                }
 
 
                 // register callback

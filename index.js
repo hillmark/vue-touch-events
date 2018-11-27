@@ -63,7 +63,7 @@ var vueTouchEvents = {
 
             $this.touchStartTime = event.timeStamp
 
-            triggerEvent(event, this, 'tapstart')
+            triggerEvent(event, this, 'touchstart')
         }
 
         function touchMoveEvent(event) {
@@ -134,6 +134,14 @@ var vueTouchEvents = {
             }
         }
 
+        function mouseDownEvent(event) {
+            var $this = this.$$touchObj
+
+            if (!$this.supportTouch && !options.disableClick) {
+                triggerEvent(event, this, 'touchstart')
+            }
+        }
+
         function clickEvent(event) {
             var $this = this.$$touchObj
 
@@ -151,6 +159,7 @@ var vueTouchEvents = {
         }
 
         function triggerEvent(e, $el, eventType, param) {
+
             var $this = $el.$$touchObj
 
             // get the callback list
@@ -174,7 +183,6 @@ var vueTouchEvents = {
                 if (binding.modifiers.self && e.target !== e.currentTarget) {
                     continue
                 }
-
                 if (typeof binding.value === 'function') {
                     if (param) {
                         binding.value(param, e)
@@ -248,6 +256,8 @@ var vueTouchEvents = {
                     $el.addEventListener('click', clickEvent)
                     $el.addEventListener('mouseenter', mouseEnterEvent)
                     $el.addEventListener('mouseleave', mouseLeaveEvent)
+                    // hillmark
+                    $el.addEventListener('mousedown', mouseDownEvent)
                 }
 
                 // set bind mark to true
@@ -264,6 +274,8 @@ var vueTouchEvents = {
                     $el.removeEventListener('click', clickEvent)
                     $el.removeEventListener('mouseenter', mouseEnterEvent)
                     $el.removeEventListener('mouseleave', mouseLeaveEvent)
+                    // hillmark
+                    $el.removeEventListener('mousedown', mouseDownEvent)
                 }
 
                 // remove vars

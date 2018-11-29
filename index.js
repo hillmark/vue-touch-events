@@ -135,11 +135,18 @@ var vueTouchEvents = {
         }
 
         function mouseDownEvent(event) {
+
+            addTouchClass(this)
+
             var $this = this.$$touchObj
 
             if (!$this.supportTouch && !options.disableClick) {
                 triggerEvent(event, this, 'touchstart')
             }
+        }
+
+        function mouseUpEvent(event) {
+            removeTouchClass(this)
         }
 
         function clickEvent(event) {
@@ -151,7 +158,7 @@ var vueTouchEvents = {
         }
 
         function mouseEnterEvent() {
-            addTouchClass(this)
+            // addTouchClass(this)
         }
 
         function mouseLeaveEvent() {
@@ -258,6 +265,7 @@ var vueTouchEvents = {
                     $el.addEventListener('mouseleave', mouseLeaveEvent)
                     // hillmark
                     $el.addEventListener('mousedown', mouseDownEvent)
+                    $el.addEventListener('mouseup', mouseUpEvent)
                 }
 
                 // set bind mark to true
@@ -276,6 +284,8 @@ var vueTouchEvents = {
                     $el.removeEventListener('mouseleave', mouseLeaveEvent)
                     // hillmark
                     $el.removeEventListener('mousedown', mouseDownEvent)
+                    $el.removeEventListener('mouseup', mouseUpEvent)
+
                 }
 
                 // remove vars
